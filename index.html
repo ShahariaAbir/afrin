@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Afrin's Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        :root {
+            --primary-blue: #00f7ff;
+            --secondary-blue: #0066ff;
+            --dark-blue: #000B2E;
+            --neon-blue: #00c3ff;
+            --accent-blue: #4facfe;
+        }
+
+        body {
+            background: linear-gradient(135deg, #000B2E 0%, #001655 50%, #002185 100%);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 30px;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 30px rgba(0, 247, 255, 0.1),
+                        inset 0 0 30px rgba(0, 247, 255, 0.05);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(0, 247, 255, 0.1),
+                transparent
+            );
+            transition: 0.5s;
+        }
+
+        .glass-card:hover::before {
+            left: 100%;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 50px rgba(0, 247, 255, 0.2),
+                        inset 0 0 50px rgba(0, 247, 255, 0.1);
+        }
+
+        .profile-section {
+            text-align: center;
+            position: relative;
+            background: linear-gradient(180deg, rgba(0, 247, 255, 0.05) 0%, rgba(0, 102, 255, 0.05) 100%);
+        }
+
+        .profile-img {
+            width: 200px;
+            height: 200px;
+            border-radius: 30px;
+            border: 3px solid var(--primary-blue);
+            margin-bottom: 20px;
+            position: relative;
+            box-shadow: 0 0 30px var(--primary-blue);
+            animation: profilePulse 3s ease-in-out infinite;
+            transform: rotate(-5deg);
+        }
+
+        .social-icons {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .social-icons a {
+            color: white;
+            font-size: 24px;
+            transition: all 0.3s ease;
+            position: relative;
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 247, 255, 0.1);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(0, 247, 255, 0.3);
+        }
+
+        .social-icons a:hover {
+            color: var(--primary-blue);
+            transform: translateY(-5px);
+            box-shadow: 0 0 30px rgba(0, 247, 255, 0.3);
+            background: rgba(0, 247, 255, 0.2);
+        }
+
+        .skill-bar {
+            margin: 25px 0;
+        }
+
+        .skill-name {
+            margin-bottom: 10px;
+            color: #fff;
+            font-weight: 500;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .skill-name::after {
+            content: attr(data-percent);
+            font-size: 0.8em;
+            color: var(--primary-blue);
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(0, 247, 255, 0.2);
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-blue), var(--secondary-blue));
+            border-radius: 20px;
+            position: relative;
+            animation: fillProgress 2s ease-out forwards;
+            box-shadow: 0 0 20px rgba(0, 247, 255, 0.3);
+        }
+
+        .progress::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -50%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            animation: progressShine 2s linear infinite;
+        }
+
+        .hobby-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .hobby-card {
+            background: rgba(0, 247, 255, 0.05);
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 247, 255, 0.2);
+            cursor: pointer;
+        }
+
+        .hobby-card:hover {
+            transform: scale(1.05);
+            background: rgba(0, 247, 255, 0.1);
+            box-shadow: 0 0 30px rgba(0, 247, 255, 0.2);
+        }
+
+        .hobby-card i {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            color: var(--primary-blue);
+            text-shadow: 0 0 10px var(--primary-blue);
+            transition: all 0.3s ease;
+        }
+
+        .hobby-card:hover i {
+            transform: translateY(-5px);
+            color: var(--secondary-blue);
+        }
+
+        h2 {
+            color: #fff;
+            margin-bottom: 30px;
+            position: relative;
+            display: inline-block;
+            font-size: 2em;
+            background: linear-gradient(45deg, var(--primary-blue), var(--secondary-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-blue), transparent);
+            box-shadow: 0 0 10px var(--primary-blue);
+        }
+
+        /* Animations */
+        @keyframes profilePulse {
+            0%, 100% { box-shadow: 0 0 20px var(--primary-blue); }
+            50% { box-shadow: 0 0 40px var(--primary-blue); }
+        }
+
+        @keyframes fillProgress {
+            from { width: 0; }
+            to { width: var(--width); }
+        }
+
+        @keyframes progressShine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Modern Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-blue);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--primary-blue), var(--secondary-blue));
+            border-radius: 4px;
+        }
+
+        /* Info Grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .info-grid p {
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(0, 247, 255, 0.05);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .info-grid p:hover {
+            background: rgba(0, 247, 255, 0.1);
+            transform: translateX(10px);
+        }
+
+        /* Education Cards */
+        .education-card {
+            background: rgba(0, 247, 255, 0.05);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 15px 0;
+            transition: all 0.3s ease;
+        }
+
+        .education-card:hover {
+            transform: translateX(10px);
+            background: rgba(0, 247, 255, 0.1);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .glass-card {
+                padding: 20px;
+            }
+
+            .social-icons {
+                gap: 10px;
+            }
+
+            .social-icons a {
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <div class="glass-card profile-section">
+            <img src="ritaup.jpg" alt="Afrin" class="profile-img">
+            <h1 class="glow-text">Afrin</h1>
+            <p class="floating">Web Developer | Digital Marketer | Artist</p>
+            <div class="social-icons">
+                <a href="mailto:afrin2204081141@diu.edu.bd"><i class="fas fa-envelope"></i></a>
+                <a href="https://www.facebook.com/avaafrin177?mibextid=ZbWKwL"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.instagram.com/af_25_rin?igsh=bnNybTZ0Y2liZmFo"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.linkedin.com/in/shaharia-afrin-032a1b283?trk=contact-info"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+
+        <div class="glass-card">
+            <h2>Personal Information</h2>
+            <div class="info-grid">
+                <div>
+                    <p><strong>Father's Name:</strong> Md Aslam Hossain</p>
+                    <p><strong>Mother's Name:</strong> Raina Akter</p>
+                    <p><strong>Date of Birth:</strong> June 1, 2001</p>
+                    <p><strong>Address:</strong> Bankcolony, Savar, Dhaka</p>
+                </div>
+                <div>
+                    <p><strong>Nationality:</strong> Bangladeshi</p>
+                    <p><strong>Blood Group:</strong> B-</p>
+                    <p><strong>Mobile:</strong> 01733444771</p>
+                    <p><strong>Email:</strong> afrin2204081141@diu.edu.bd</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-card">
+            <h2>Education</h2>
+            <div class="info-grid">
+                <div class="glass-card floating">
+                    <h3 class="glow-text">SSC</h3>
+                    <p>ACED School</p>
+                    <p>GPA: 5.00 out of 5.00</p>
+                </div>
+                <div class="glass-card floating">
+                    <h3 class="glow-text">HSC</h3>
+                    <p>Jahangirnagar University School and College</p>
+                    <p>GPA: 5.00 out of 5.00</p>
+                </div>
+                <div class="glass-card floating">
+                    <h3 class="glow-text">Honours</h3>
+                    <p>Daffodil International University</p>
+                    <p>Currently Studying</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-card">
+            <h2>Skills</h2>
+            <div class="skill-bar">
+                <div class="skill-name">Web Development</div>
+                <div class="progress-bar">
+                    <div class="progress" style="--width: 90%"></div>
+                </div>
+            </div>
+            <div class="skill-bar">
+                <div class="skill-name">Digital Marketing</div>
+                <div class="progress-bar">
+                    <div class="progress" style="--width: 85%"></div>
+                </div>
+            </div>
+            <div class="skill-bar">
+                <div class="skill-name">Dance</div>
+                <div class="progress-bar">
+                    <div class="progress" style="--width: 80%"></div>
+                </div>
+            </div>
+            <div class="skill-bar">
+                <div class="skill-name">Video Editing</div>
+                <div class="progress-bar">
+                    <div class="progress" style="--width: 75%"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-card">
+            <h2>Software Skills</h2>
+            <div class="skill-bar">
+                <div class="skill-name">MS Word</div>
+                <div class="progress-bar">
+                    <div class="progress" style="--width: 95%"></div>
+                </div>
+            </div>
+            <div class="skill-bar">
+                <div class="skill-name">MS PowerPoint</div>
+                <div class="progress-bar">
+                    <div class="progress" style="--width: 90%"></div>
+                </div>
+            </div>
+            <div class="skill-bar">
+                <div class="skill-name">GitHub</div>
+                <div class="progress-bar">
+                    <div class="progress" style="--width: 85%"></div>
+                </div>
+            </div>
+            <div class="skill-bar">
+                <div class="skill-name">CapCut</div>
+                <div class="progress-bar">
+                    <div class="progress" style="--width: 80%"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-card">
+            <h2>Hobbies</h2>
+            <div class="hobby-cards">
+                <div class="hobby-card">
+                    <i class="fas fa-palette"></i>
+                    <p>Painting</p>
+                </div>
+                <div class="hobby-card">
+                    <i class="fas fa-seedling"></i>
+                    <p>Gardening</p>
+                </div>
+                <div class="hobby-card">
+                    <i class="fas fa-utensils"></i>
+                    <p>Cooking</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
